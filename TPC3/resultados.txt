@@ -1,3 +1,5 @@
 <ol>
-<li>Primeiro 2. Segundo 3. Terceiro</li>
+<li>Primeiro</li>
+<li>Segundo</li>
+<li>Terceiro</li>
 </ol>
