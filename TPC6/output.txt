@@ -1,0 +1,11 @@
+Expressão: 3 + 5 => Resultado: 8
+Expressão: 10 - 2 * 4 => Resultado: 2
+Expressão: (8 / 2) + 3 => Resultado: 7.0
+Expressão: 15 / (3 + 2) => Resultado: 3.0
+Expressão: (6 + 4) * 2 => Resultado: 20
+Expressão: 18 / (3 * (2 + 1)) => Resultado: 2.0
+Expressão: 7 - (4 + 2) * 3 => Resultado: -11
+Expressão: (10 - 2) / (4 + 4) => Resultado: 1.0
+Expressão: (5 * (2 + 3)) - 4 => Resultado: 21
+Expressão: 20 / (5 - 3) + 2 => Resultado: 12.0
+Expressão: (12 / (2 + 4)) * 5 => Resultado: 10.0
