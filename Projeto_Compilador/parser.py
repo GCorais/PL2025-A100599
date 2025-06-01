@@ -98,25 +98,6 @@ precedence = (
 # Estruturas AST e tabelas auxiliares
 # ---------------------------------------------------
 
-# Cada nó de expressão será:
-#   ('num', inteiro)
-#   ('real', float)         ← se você quiser lidar com literais float
-#   ('id', nome_variável)
-#   ('str', texto_literal)
-#   ('bool', True/False)
-#   ('binop', operador, esquerda, direita)
-#
-# Cada nó de statement será:
-#   ('assign', var, expr)            → var := expr
-#   ('read', var)                     → a partir de READ construímos as conversões
-#   ('write', [lista_expr], newline)  → WRITE / WRITELN
-#   ('if', cond, then_stmt, else_stmt)  
-#   ('while', cond, corpo_stmt)
-#   ('block', [lista_statements])
-#
-# Programa completo:
-#   ('program', nome, bloco_stmt)
-
 codigo_meio = []          # lista de linhas (strings) do .ewvm que vamos gerar
 tabela_variaveis = {}     # dicionário: nome_variável → (tipo, índice_global)
 contador_etiquetas = 0    # para gerar L0, L1, L2, …
@@ -274,22 +255,22 @@ def generate_stmt_code(stmt):
 
             # 2) escolhe o opcode de impressão:
             if e[0] == 'num' or e[0] == 'bool':
-                codigo_meio.append("WRITEI")
+                codigo_meio.append("WRITEI\nWRITELN")
             elif e[0] == 'real':
-                codigo_meio.append("WRITEF")
+                codigo_meio.append("WRITEF\nWRITELN")
             elif e[0] == 'str':
-                codigo_meio.append("WRITES")
+                codigo_meio.append("WRITES\nWRITELN")
             elif e[0] == 'id':
                 nome_var = e[1]
                 tipo_v, _ = tabela_variaveis[nome_var]
                 if tipo_v in ('integer', 'boolean'):
-                    codigo_meio.append("WRITEI")
+                    codigo_meio.append("WRITEI\nWRITELN")
                 elif tipo_v == 'real':
-                    codigo_meio.append("WRITEF")
+                    codigo_meio.append("WRITEF\nWRITELN")
                 elif tipo_v == 'string':
-                    codigo_meio.append("WRITES")
+                    codigo_meio.append("WRITES\nWRITELN")
                 else:
-                    codigo_meio.append("WRITEI")
+                    codigo_meio.append("WRITEI\nWRITELN")
             else:
                 # Se for binop, infere tipo do resultado
                 def infer_tipo(no):
@@ -306,9 +287,9 @@ def generate_stmt_code(stmt):
 
                 tipo_res = infer_tipo(e)
                 if tipo_res == 'real':
-                    codigo_meio.append("WRITEF")
+                    codigo_meio.append("WRITEF\nWRITELN")
                 else:
-                    codigo_meio.append("WRITEI")
+                    codigo_meio.append("WRITEI\nWRITELN")
 
         if newline:
             codigo_meio.append("WRITELN")
@@ -581,7 +562,6 @@ def p_error(p):
     else:
         raise SyntaxError("Fim de arquivo inesperado")
 
-# Constrói o parser (gera parser.out para mostrar conflitos)
 parser = yacc.yacc(debug=True)
 
 # ---------------------------------------------------
